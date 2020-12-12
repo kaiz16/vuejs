@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Number!</title>
+</head>
+<body>
+    <h1>A Minigame: Guess The Secret Number</h1>
+    <p>We have selected a secret number between 1 and 20. 
+        See if you can guess it in 5 turns or fewer. 
+        We'll tell you if your guess was too high or too low.</p>
+
+    <form id="main">
+        <label>Enter A Guess</label>
+        <input type="number" min=1 max=20>
+        <button>Submit</button>
+    </form>
+
+    <p id="note"></p>
+    <button id="tryagain">Easy! Let me try again!</button>
+    
+</body>
+<script>
+let submitBtn = document.querySelector('#main button')
+let input = document.querySelector('#main input')
+let note = document.querySelector('#note')
+let tryagain = document.querySelector('#tryagain')
+let main = document.querySelector('#main')
+let randomNumber = 10
+let tries = 5;
+function restart(){
+    main.style.display = "block"
+    tryagain.style.display = "none"
+    note.textContent = ""
+    input.value = ''
+    randomNumber = Math.floor(Math.random() * 20) + 1;
+    tries = 5
+}
+restart()
+
+// get the input on button click
+submitBtn.addEventListener('click',(e)=>{
+    e.preventDefault()
+    let value = input.value
+
+    if (!value){
+        note.textContent = "Please kindly input a number."
+        note.style.color="red"
+        return
+    }
+
+    if (tries <= 1){
+        main.style.display = "none"
+        tryagain.textContent = "This was tough! Let me try again!"
+        tryagain.style.display = "block"
+        note.textContent = 'You failed! The secret number is ' + randomNumber + ', you ran out of tries!'
+        note.style.color="red"
+        return
+    }
+
+    // scenario for high
+    if (value > randomNumber){
+        tries -= 1;
+        note.textContent = "Unfortunately, that's too high. Go lower! You have " + tries + ' more tries remaining'
+        note.style.color = 'red'
+    // scenario for low
+    }else if (value < randomNumber){
+        tries -= 1;
+        note.textContent="Unfortunately, that's too low. Go higher! You have " + tries + ' more tries remaining'
+        note.style.color = 'red'
+    // scenario for correct
+    }else if (value == randomNumber){
+        tries -= 1
+        main.style.display="none"
+        note.textContent = 'You are right! The secret number is ' + randomNumber + ', you guessed it in ' + tries +' tries.'
+        tryagain.style.display="block"
+        note.style.color="green"
+        note.style.fontSize = "large"
+    }
+    
+})
+
+tryagain.addEventListener('click', () =>{
+    restart()
+})
+</script>
+</html>

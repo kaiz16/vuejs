@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSTS</title>
+</head>
+<body>
+    <ul id="posts">
+    </ul>
+</body>
+<script>
+function displayPosts(json){
+    var posts = document.getElementById('posts')
+    json.forEach( obj => {
+        let li = document.createElement('LI');
+        li.textContent = obj.title;
+        posts.appendChild(li);
+    })
+}
+const parsedObj = JSON.parse(' { "ddd": "hi" } ')
+console.log(parsedObj)
+function fetchPosts(){
+    // 200 OK will run .then ELSE .catch
+    // as long as you type in a correct url (rest api)
+    // you will get responses
+    fetch("https://jsonplaceholder.typicode.com/posts")
+    // 200 OK
+    // resolve
+    .then( data => {
+        data.json().then(json => displayPosts(json))
+    }
+    )
+    // reject
+    .catch( error => alert('You got error!!!!! Fix that'))
+}
+fetchPosts()
+
+</script>
+</html>

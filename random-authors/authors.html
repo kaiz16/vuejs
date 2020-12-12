@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="authors">
+    </ul>
+</body>
+<script>
+function displayAuthors(json){
+    var authors = document.getElementById('authors')
+    json.forEach( obj => {
+        let li = document.createElement('LI');
+        li.textContent = obj.name.title + ' ' + obj.name.first + ' ' + obj.name.last;
+        authors.appendChild(li);
+    })
+}
+function fetchAuthors(){
+    // 200 OK will run .then ELSE .catch
+    // as long as you type in a correct url (rest api)
+    // you will get responses
+    fetch("https://randomuser.me/api/?results=10")
+    // 200 OK
+    // resolve
+    .then( data => {
+        data.json().then(json => displayAuthors(json.results))
+    }
+    )
+    // reject
+    .catch( error => alert('You got error!!!!! Fix that'))
+}
+fetchAuthors()
+    
+    </script>
+</html>
