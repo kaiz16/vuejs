@@ -1,4 +1,4 @@
-# parent-child-components
+# pets-app
 
 ## Project setup
 ```
