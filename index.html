@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .done{
+        text-decoration: line-through;
+    }
+
+    .colour{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <p>My TODO APP</p>
+        <input type="text" 
+        v-bind:maxlength="maxLength"
+        v-on:keyup.enter="addTodo" v-model="todoTitle"/>
+        <h4>Todo title: {{ todoTitle }}</h4>
+        <h4>{{ charCount }} / {{ maxLength }}</h4>
+        <h4>Todos</h4>
+
+        <ul>
+            <li
+             v-for="(todoList, index) in todoLists"
+             v-bind:class="{ done : todoList.done == true, colour : todoList.isColoured == true}"
+             >{{todoList.todo}}
+
+                <button v-on:click="removeTodo(index)">X</button>
+                <button v-on:click="completeTodo(index)">Done</button>
+                <button v-on:click="changeColour(index)">Change Colour</button>
+            </li>
+        </ul>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</body>
+</html>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            maxLength: 15,
+            todoTitle: '',
+            todoLists: [
+                {
+                    todo: 'Walk my dog',
+                    done: true,
+                    isColoured: true,
+                },
+                {
+                    todo: 'feed my cat',
+                    done: false,
+                    isColoured: false,
+                }
+            ]
+        },
+        computed: {
+            charCount: function(){
+                return this.todoTitle.length
+            } 
+        },
+        methods: {
+            addTodo: function(){
+                this.todoLists.push(
+                    {
+                        todo: this.todoTitle,
+                        done: false,
+                        isColoured: false,
+                    }
+                )
+            },
+            removeTodo: function(index){
+                this.todoLists.splice(index, 1);
+            },
+            completeTodo: function(index){
+                this.todoLists[index].done = !this.todoLists[index].done
+            },
+            changeColour: function(index){
+                this.todoLists[index].isColoured = !this.todoLists[index].isColoured
+            }
+        }
+    })
+</script>
