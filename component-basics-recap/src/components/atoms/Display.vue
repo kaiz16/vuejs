@@ -1,11 +1,10 @@
 <template>
-    <router-view></router-view>
+  <p>{{ status }}</p>
 </template>
 
 <script>
-// Nested route placeholder 
 export default {
-
+    props: ['status']
 }
 </script>
 
