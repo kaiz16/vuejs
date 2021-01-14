@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <math-buttons></math-buttons>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</body>
+<script>  
+    // Local component
+    var minusButton = {
+        template: `
+            <button v-on:click="emitToParent"> - </button>
+        `,
+        methods: {
+            emitToParent(){
+                this.$emit('minus-counter')
+            }
+        }
+    }
+
+    // local component
+    var plusButton = {
+        template: `
+            <button v-on:click="emitToParent"> + </button>
+        `,
+        methods: {
+            emitToParent(){
+                this.$emit('plus-counter')
+            }
+        }
+    }
+
+    // local component that contains plus and minus button
+    var mathButtons = {
+        // why data must be a function 
+        // https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function 
+        data(){
+            return{
+                counter: 0
+            }
+        },
+        // one root tag per component
+        template: `
+            <div>
+                <p>{{counter}}</p>
+                <plus-button v-on:plus-counter="plusCounter"></plus-button>
+                <minus-button v-on:minus-counter="minusCounter"></minus-button>
+            </div>
+        `,
+        // since we've defined them as local component, 
+        // we define it in here to let this component knows that we want to use them
+        components: {
+            'plus-button': plusButton,
+            'minus-button': minusButton
+        },
+        methods: {
+            minusCounter: function(){
+                this.counter--;
+            },
+            plusCounter: function(){
+                this.counter++;
+            }
+        }
+    }
+
+    // vue instance
+    var root = new Vue({
+        el: "#app", // DOM vue want to control
+        components: {
+            'math-buttons': mathButtons
+        }
+    })
+
+    
+   
+
+</script>
+</html>

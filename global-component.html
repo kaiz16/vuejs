@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- camelCase -->
+    <!-- kebab-case -->
+    <!-- snake_case -->
+    <!-- PascalCase -->
+    <div id="app">
+        <p>{{counter}}</p>
+        <math-button></math-button>
+        <minus-button v-on:minus-counter="minusCounter"></minus-button>
+        <plus-button v-on:plus-counter="plusCounter"></plus-button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</body>
+<script>  
+    // all components are global. No local components used in this code
+    Vue.component('minus-button', {
+        template: `
+            <button v-on:click="emitToParent"> - </button>
+        `,
+        methods: {
+            emitToParent(){
+                this.$emit('minus-counter')
+            }
+        }
+    })
+
+    Vue.component('plus-button', {
+        template: `
+            <button v-on:click="emitToParent"> + </button>
+        `,
+        methods: {
+            emitToParent(){
+                this.$emit('plus-counter')
+            }
+        }
+    })
+
+    // vue instance
+    var root = new Vue({
+        data(){
+            return {
+                counter: 0
+            }
+        },
+        el: "#app",
+        methods: {
+            minusCounter: function(){
+                this.counter--;
+            },
+            plusCounter: function(){
+                this.counter++;
+            }
+        }
+    })
+
+    
+   
+
+</script>
+</html>
